@@ -1,0 +1,10 @@
+matplotlib==3.8.0
+pandas
+plotly
+pygenomeviz==0.4.4
+pyodbc
+python_dateutil
+pytz
+pycountry
+streamlit==1.41.0
+seaborn
