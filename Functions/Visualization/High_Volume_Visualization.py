@@ -43,7 +43,7 @@ def generate_bar_chart_by_test(df,ind):
     return fig
 
 def generate_bar_chart_by_client(df,ind):
-    bargap = 0.1 if ind == 0 else 0.7
+    bargap = 0.1 if ind == 0 else 0.2
     df = df[df['Request Type'] == 'New'] if ind == 0 else df[df['Request Type'] != 'New']
     modified_df = df.drop_duplicates(subset=['Client','Project','Date','Country','Sample ID','Request Type'])\
         .groupby('Client').Gene.count().reset_index().rename(columns={'Gene':'Sample Count'}).sort_values('Sample Count',ascending=False)
@@ -77,9 +77,9 @@ def generate_bar_chart_by_client(df,ind):
 def style_samplewise_table(df):
     modified_df = df.copy()
     modified_df['Project'] = modified_df.apply(lambda row: row['Project'] + ' (Rerequest)' if row['Request Type'] != 'New' else row['Project'],axis=1)
-    modified_df = modified_df.groupby(['Gene','Client','Project','Date'])['Sample ID'].count().reset_index()
+    modified_df = modified_df.groupby(['Gene','Client','Project'])['Sample ID'].count().reset_index()
     modified_df.Gene = pd.Categorical(modified_df.Gene, categories=test_list,ordered=True)
-    modified_df = modified_df.sort_values(by=['Gene','Date'],ascending=True).rename(columns={'Sample ID':'Sample Count'}).reset_index(drop=True)
+    modified_df = modified_df.sort_values(by=['Gene'],ascending=True).rename(columns={'Sample ID':'Sample Count'}).reset_index(drop=True)
     modified_df.index += 1
 
     def add_color_by_gene(row):
@@ -91,11 +91,10 @@ def style_samplewise_table(df):
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(6)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(5)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(6)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
+            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
         ])
 
 def generate_map(df):
