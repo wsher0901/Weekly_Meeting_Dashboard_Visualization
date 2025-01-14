@@ -30,7 +30,7 @@ def generate_pie_chart_for_client_type(df):
                                   y=-0.1,
                                   title=''))
     
-    fig.update_traces(textfont_size=40,
+    fig.update_traces(textfont_size=32,
                       marker=dict(colors=px.colors.qualitative.G10, 
                                   line=dict(color='#000000', width=4)))
     return fig
@@ -39,8 +39,8 @@ def generate_bar_chart_for_client(df):
     modified_df = df.sort_values('Sample Count',ascending=False).iloc[0:10]
     fig = px.bar(modified_df,
                  x='Sample Count',
-                 y='Project',
-                 color='Project',
+                 y='Client',
+                 color='Client',
                  text='Sample Count',
                  orientation='h',
                  color_discrete_sequence= px.colors.qualitative.G10)
@@ -120,8 +120,8 @@ def generate_bar_chart_for_locus(df):
     
     return fig
 
-def style_locuswise_table(df,df_total):
-    modified_df = pd.merge(df,df_total,on=['Type','Project'])
+def style_locuswise_table(df):
+    modified_df = df.copy()
     modified_df = modified_df.rename(columns={'Sample Count':'Total'})
     modified_df['Type'] = pd.Categorical(modified_df.Type, categories=low_volume_test_list,ordered=True)
     modified_df = modified_df.sort_values(by=['Type','Total'],ascending=[True,False]).reset_index(drop=True)
@@ -136,7 +136,7 @@ def style_locuswise_table(df,df_total):
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(13)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(4)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
@@ -189,7 +189,10 @@ def generate_pie_chart_by_country(df):
     return fig
 
 def generate_bar_chart_for_nonhla(df):
-    fig = px.bar(df, 
+    modified_df = df.copy()
+    modified_df['Gene'] = pd.Categorical(modified_df.Gene, categories=['HLA','ABO-RH','CCR','CMV','DNA Extraction'],ordered=True)
+    modified_df = modified_df.sort_values(by=['Gene'],ascending=True).reset_index(drop=True)
+    fig = px.bar(modified_df, 
                  x="Gene", 
                  y="Sample Count",
                  color='Gene',
@@ -217,7 +220,7 @@ def generate_bar_chart_for_nonhla(df):
 def style_nonhla_table(df):
     modified_df = df.copy()
     modified_df['Gene'] = pd.Categorical(modified_df.Gene, categories=test_list,ordered=True)
-    modified_df = modified_df.sort_values(by=['Gene','Project','Date'],ascending=True).reset_index(drop=True)
+    modified_df = modified_df.sort_values(by=['Gene','Client'],ascending=True).reset_index(drop=True)
     modified_df.index += 1
 
     def add_color_by_gene(row):

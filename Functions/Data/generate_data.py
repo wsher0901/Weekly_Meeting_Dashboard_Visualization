@@ -5,6 +5,10 @@ import pandas as pd
 
 fake = Faker()
 
+countries = ["United States","Canada","United Kingdom","Germany","France","Italy","Spain","Australia","New Zealand",
+             "China","Japan","India","Brazil","Mexico","Russia","South Africa","Argentina","Egypt""Turkey","Switzerland",
+             "Netherlands","Sweden","Norway","Denmark","Greece","Thailand","South Korea","Indonesia","Vietnam","Saudi Arabia"]
+
 def get_date():
     today = date.today()
     this_week = last_week = ''
@@ -45,7 +49,7 @@ def get_prob(n):
 def generate_high_volume():
     client_count = random.randint(5,10)
     client_name = [fake.name() for _ in range(client_count)]
-    country_name = [fake.country() for _ in range(client_count) if fake.country() not in ['Antarctica (the territory South of 60 deg S)','palestinian territory']]
+    country_name = random.sample(countries,client_count)
     country_dict = {i:j for i,j in zip(client_name,country_name)}
     sample_count = random.randint(12000,15000)
     date_list = [(last_week + timedelta(days=i)) for i in range(0,7,1)]
@@ -132,4 +136,46 @@ def generate_cmv():
         i.index +=1
             
     return first_table, second_table, data[0], data[1], data[2], data[3]
+
+def generate_low_volume():
+    client_count = random.randint(7,10)
+    client_name = [fake.name() for _ in range(client_count)]
+    sample_count = random.randint(300,400)
+    country_name = random.sample(countries,client_count)
+    country_dict = {i:j for i,j in zip(client_name,country_name)}
+    data = []
+    for _ in range(sample_count):
+        client = random.choice(client_name)
+        data.append([random.choices(['Clinical','Registry','Research'],weights=[0.7,0.28,0.02],k=1)[0],
+                    client,
+                     country_dict[client],
+                     1
+                     ])
+    df = pd.DataFrame(data,columns=['Type','Client','Country','Sample Count'])
+    fifth_table = df.groupby('Country')['Sample Count'].count().reset_index()
+    df = df.groupby(['Type','Client'])['Sample Count'].count().reset_index()
+    for i in ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']:
+        df[i] = df.apply(lambda row: random.randint(row['Sample Count']-10,row['Sample Count']) if row['Sample Count'] > 10 else \
+                         random.randint(0,row['Sample Count']),axis=1)
+
+    first_table = df.groupby('Type')[['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']].sum().reset_index()
+    third_table = df.groupby('Type')['Sample Count'].sum().reset_index()
+    fourth_table = df.groupby(['Type','Client'])['Sample Count'].sum().reset_index()
+
+    data = []
+    for _ in range(random.randint(100,150)):
+        data.append([random.choices(['HLA','ABO-RH','CCR','CMV','DNA Extraction'],weights=[0.6,0.23,0.12,0.03,0.02],k=1)[0],
+                     random.choice(client_name[0:3]),
+                     1])
+    df2 = pd.DataFrame(data,columns=['Gene','Client','Sample Count'])
+    sixth_table = df2.groupby('Gene')['Sample Count'].sum().reset_index()
+    return first_table, df, third_table, fourth_table, fifth_table, sixth_table, df2.groupby(['Gene','Client'])['Sample Count'].sum().reset_index()
+
+
+
+
+
+
+
+
 

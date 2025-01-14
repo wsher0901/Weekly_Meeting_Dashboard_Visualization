@@ -15,7 +15,6 @@ st.markdown("""
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
 data = st.session_state['Pre PCR (Low Vol)']
-
 generate_header(title='Pre-PCR (Low Volume)',
                 prev="pages/2_Pre_PCR_CMV.py",
                 next="pages/4_PCR.py",
@@ -37,7 +36,7 @@ with st.container(): # first section
 with st.container(): # second section
     st.write(generate_markdown('HLA Locus- wise Statistics', font_size=60,font_color='black'), unsafe_allow_html=True)
     st.plotly_chart(generate_bar_chart_for_locus(data[0]),use_container_width=True)
-    st.expander('Locus-wise Statistics').table(style_locuswise_table(data[1],data[3]))
+    st.expander('Locus-wise Statistics').table(style_locuswise_table(data[1]))
 
 
 with st.container(): # third section
