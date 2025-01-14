@@ -14,7 +14,6 @@ st.markdown("""
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
 data = st.session_state['Pre PCR (CMV)']
-
 generate_header(title='Pre PCR (CMV)',
                 prev="pages/1_Pre_PCR_High_Volume.py",
                 next="pages/3_Pre_PCR_Low_Volume.py",
@@ -32,17 +31,12 @@ with st.container(): # first section
 
 with st.container(): # second section
     st.markdown(generate_markdown(text='CMV Analytics',font_color='black',font_size=60), unsafe_allow_html=True)
-    tabs = st.tabs(sorted(data[1]['Elisa Date'].unique()))
-    for i,j in zip(tabs,sorted(data[1]['Elisa Date'].unique())):
-        with i:
-            cmv_analytics_data = data[1][data[1]['Elisa Date'] == j].reset_index(drop=True)
-            cmv_analytics_data.index+=1
-            f1,f2 = st.columns([6.5,3.5])
-            st_write(f1,10)
-            f1.table(style_cmv_analytics_table(cmv_analytics_data))
-            f1.write(generate_markdown(text='Note: Expected Percentage (%) of Equivocal results must be less than 5%.',font_size=15),unsafe_allow_html=True)
-            st_write(f1,10)
-            f2.plotly_chart(generate_pie_chart_for_cmv_analytics(cmv_analytics_data),key=i)
+    f1,f2 = st.columns([6.5,3.5])
+    st_write(f1,10)
+    f1.table(style_cmv_analytics_table(data[1]))
+    f1.write(generate_markdown(text='Note: Expected Percentage (%) of Equivocal results must be less than 5%.',font_size=15),unsafe_allow_html=True)
+    st_write(f1,10)
+    f2.plotly_chart(generate_pie_chart_for_cmv_analytics(data[1]))
             
 
     st_write(st,4)
@@ -59,10 +53,7 @@ with st.container(): # third section
     for i,j in zip([tab1,tab2,tab3,tab4],[2,3,4,5]):
         s1,s2 = i.columns(2)
         with i:
-            if j == 2:
-                s1.table(style_positive_control_table(data[j]))
-            else:
-                s1.table(style_remaining_control_table(data[j]))
+            s1.table(style_remaining_control_table(data[j]))
         
         st_write(s2,2)
         s2.markdown(generate_markdown(text='Average OD Value',font_color='black',font_size=40), unsafe_allow_html=True)

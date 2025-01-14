@@ -6,7 +6,7 @@ from datetime import timedelta, datetime, date, time
 from dateutil.relativedelta import relativedelta
 from Functions.Transformation.Transformation import high_volume_transform, cmv_transform, low_volume_transform, pcr_transform, gel_transform, illumina_transform, \
 pacbio_transform, repeats_transform, reagents_transform, hla_tat_transform, non_hla_tat_transform
-from Functions.Data.generate_data import generate_high_volume
+from Functions.Data.generate_data import generate_high_volume, generate_cmv
 tz = timezone('EST')
 
 def connect():
@@ -42,7 +42,8 @@ def cmv_load(cursor,lw,tw):
         if not cursor.nextset():
             break
 
-    return cmv_transform(output)
+    #return cmv_transform(output)
+    return generate_cmv()
 
 def low_volume_load(cursor,lw,tw):
     output = []

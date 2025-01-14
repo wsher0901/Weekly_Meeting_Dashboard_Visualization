@@ -77,16 +77,59 @@ def generate_cmv():
     sample_count = random.randint(7000,8000)
     client_count = random.randint(5,10)
     client_name = [fake.name() for _ in range(client_count)]
-    date_list = [(last_week + timedelta(days=i)) for i in range(0,7,1)]
 
     data = []
     for _ in range(sample_count):
         client = random.choice(client_name)
-        data.append([random.choices(['Antibody Extraction','CMV-ELISA','Plasma / Serum Dilution'],weights=[0.45,0.1,0.45],k=1)[0],
+        data.append([random.choices(['Antibody Extraction','CMV-ELISA','Plasma / Serum Dilution'],weights=[0.47,0.06,0.47],k=1)[0],
+                     client[0:3].upper(),
                      client[0:3].upper()+str(random.randint(100000,999999)),
-                     client,
+                     client
+                     ])
+    
+    first_table = pd.DataFrame(data,columns=['Elisa Type','Experiment Names','Sample ID','Client'])
+    first_table = first_table.groupby(['Elisa Type','Experiment Names','Client'])['Sample ID'].count().reset_index()
+    first_table.rename(columns={'Sample ID':'Sample Count'},inplace=True)
 
-        ])
+    experiment_count = random.randint(3,5)
+    client_name = [fake.name() for _ in range(experiment_count)]
+    data = []
+    for i in range(0,experiment_count):
+        client = client_name[i]
+        sample_count = random.randint(300,700)
+        for _ in range(sample_count):
+            data.append([client,
+                         client[0:3].upper(),
+                         random.choices(['Positive','Negative','Equivocal'],weights=[0.22,0.74,0.04],k=1)[0],
+                         1
+                         ])
 
+    second_table = pd.DataFrame(data,columns=['Client','Experiment Names','Result','Sample Count'])
+    second_table = second_table.groupby(['Client','Experiment Names','Result'])['Sample Count'].count().reset_index()\
+    .pivot(index=['Client','Experiment Names'],columns='Result',values='Sample Count').reset_index()
+    second_table['Total'] = second_table.apply(lambda row: row['Equivocal']+row['Negative']+row['Positive'],axis=1)
+    second_table['Negative Rate'] = second_table.apply(lambda row: round(row['Negative']/row['Total']*100,2),axis=1)
+    second_table['Positive Rate'] = second_table.apply(lambda row: round(row['Positive']/row['Total']*100,2),axis=1)
+    second_table['Equivocal Rate'] = second_table.apply(lambda row: round(row['Equivocal']/row['Total']*100,2),axis=1)
+    second_table = second_table[['Client','Experiment Names','Total','Negative','Positive','Equivocal','Negative Rate','Positive Rate','Equivocal Rate']]
 
+    data = []
+    for i in ['Positive','Negative','Blank','Blank Swab']:
+        temp = []
+        for _ in range(3):
+            client = fake.name()
+            for j in range(8):
+                od = 0
+                if i == 'Positive':
+                    od = round(random.uniform(1.9, 2.2),3)
+                else:
+                    od = round(random.uniform(1.85,2.1),3)
+                temp.append([client,
+                            client[0:3].upper()+'-'+i+'Control'+str(j),
+                            od])
+        data.append(pd.DataFrame(temp,columns=['Client','Experiment Names','Observed OD Value']))
+    for i in data:
+        i.index +=1
+            
+    return first_table, second_table, data[0], data[1], data[2], data[3]
 

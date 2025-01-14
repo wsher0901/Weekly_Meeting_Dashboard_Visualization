@@ -6,11 +6,12 @@ from Files.common_list import cmv_test_type_list
 color_map = {i:j for i,j in zip(cmv_test_type_list,px.colors.qualitative.G10)}
 
 def generate_bar_chart_for_cmv_statistics(df):
-    modified_df = pd.DataFrame([[i,df[df.Type == i]['Sample Count'].sum()] if i in df.Type.unique() else [i,0] for i in cmv_test_type_list],columns=['Type','Count'])
+    modified_df = df.copy()
+    modified_df = modified_df.groupby('Elisa Type')['Sample Count'].sum().reset_index(name='Count')
     fig = px.bar(modified_df,
-                       x='Type',
+                       x='Elisa Type',
                        y='Count',
-                       color='Type',
+                       color='Elisa Type',
                        text='Count',
                        color_discrete_map= color_map)
     
@@ -37,14 +38,14 @@ def generate_bar_chart_for_cmv_statistics(df):
 
 def style_cmv_statistics_table(df):
     modified_df = df.copy()
-    modified_df.Type = pd.Categorical(modified_df.Type, categories=cmv_test_type_list,ordered=True)
-    modified_df = modified_df.sort_values(by=['Type','Experiment Date'],ascending=True).rename(columns={'Sample ID':'Sample Count'}).reset_index(drop=True)
+    modified_df.Type = pd.Categorical(modified_df['Elisa Type'], categories=cmv_test_type_list,ordered=True)
+    modified_df = modified_df.sort_values(by=['Elisa Type'],ascending=True).rename(columns={'Sample ID':'Sample Count'}).reset_index(drop=True)
     modified_df.index += 1
 
     def add_color_by_gene(row):
-        return ['background-color: ' + color_map.get(row['Type'], 'white')] + ['']*(len(row)-1)
+        return ['background-color: ' + color_map.get(row['Elisa Type'], 'white')] + ['']*(len(row)-1)
 
-    return df.style.apply(add_color_by_gene,axis=1).set_table_styles(
+    return modified_df.style.apply(add_color_by_gene,axis=1).set_table_styles(
         [
             {'selector': 'th.col_heading', 'props': 'background-color: gray; color: white;'},
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
@@ -61,13 +62,13 @@ def style_cmv_statistics_table(df):
 
 def generate_pie_chart_for_cmv_analytics(df):
     labels=['Negative','Positive','Equivocal']
-    values = [df['Number of Negative'].sum(),df['Number of Positive'].sum(),df['Number of Equivocal'].sum()]
+    values = [df['Negative'].sum(),df['Positive'].sum(),df['Equivocal'].sum()]
     custom_text = [
     f"{label}: <br><b>({value/sum(values)*100:.2f}%)</b>"
     for label, value in zip(labels, values)]
 
     fig = go.Figure(data=[go.Pie(labels=['Negative','Positive','Equivocal'],
-                                 values=[df['Number of Negative'].sum(),df['Number of Positive'].sum(),df['Number of Equivocal'].sum()],
+                                 values=[df['Negative'].sum(),df['Positive'].sum(),df['Equivocal'].sum()],
                                  text=custom_text,
                                  textinfo = 'text',
                                  insidetextorientation='horizontal',
@@ -92,6 +93,8 @@ def generate_pie_chart_for_cmv_analytics(df):
     return fig
 
 def style_cmv_analytics_table(df):
+    modified_df = df.copy()
+    modified_df.index +=1
     def color_column_neg(val):
         return 'background-color: #2f75b5'
     def color_column_pos(val):
@@ -99,32 +102,27 @@ def style_cmv_analytics_table(df):
     def color_column_equ(val):
         return 'background-color: #ff9793'
 
-    return df.style.set_table_styles(
+    return modified_df.style.set_table_styles(
         [
             {'selector': 'th.col_heading', 'props': 'background-color: gray; color: white;'},
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(6)','props':[('font-weight','bold')]},
-            {'selector': 'td:nth-child(10)','props':[('font-weight','bold')]},
-            {'selector': 'td:nth-child(11)','props':[('font-weight','bold')]},
-            {'selector': 'td:nth-child(12)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(4)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(2)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(6)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(7)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(8)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(9)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'th.col8', 'props': [('background-color', '#2f75b5'),('color', 'black')]},
-            {'selector': 'th.col9', 'props': [('background-color', '#a9d08e'),('color', 'black')]}, 
-            {'selector': 'th.col10', 'props': [('background-color', '#ff9793'),('color', 'black')]}   
+            {'selector': 'th.col6', 'props': [('background-color', '#2f75b5'),('color', 'black')]},
+            {'selector': 'th.col7', 'props': [('background-color', '#a9d08e'),('color', 'black')]}, 
+            {'selector': 'th.col8', 'props': [('background-color', '#ff9793'),('color', 'black')]}   
         ]
-    ).map(color_column_pos, subset=['Rate of Positive']) \
-    .map(color_column_neg, subset=['Rate of Negative']) \
-    .map(color_column_equ, subset=['Rate of Equivocal']) \
-    .map(lambda x: 'color: black', subset = ['Rate of Negative','Rate of Positive','Rate of Equivocal'])
+    ).map(color_column_pos, subset=['Positive Rate']) \
+    .map(color_column_neg, subset=['Negative Rate']) \
+    .map(color_column_equ, subset=['Equivocal Rate']) \
+    .map(lambda x: 'color: black', subset = ['Negative Rate','Positive Rate','Equivocal Rate'])
 
 def generate_box_plot_chart_for_cmv_analytics(df):
     fig = go.Figure()

@@ -29,7 +29,7 @@ comment_color_code = {'Test Delay':'#ff7400','Test Failed':'#ff0000','Test Quali
               'Waiting for Repeat':'#ffc100','Hold Report':'black','Others':'#2a4d69','Not Commented':'gray','Extended':'rgb(180,151,231)','Completed':'#0e1117'}
 delay_status_color_code = {'Completed':'#313695','Delayed':'#a50026','Hold Report':'white'}
 # CMV
-cmv_test_type_list = ['Antibody Extraction (Buccal swab)','Plasma/ Serum Dilution','HISTO CMV- ELISA']
+cmv_test_type_list = ['Antibody Extraction','CMV-ELISA','Plasma / Serum Dilution']
 # Low-volume
 low_volume_test_list = ['Clinical','Registry','Research']
 # Gel
