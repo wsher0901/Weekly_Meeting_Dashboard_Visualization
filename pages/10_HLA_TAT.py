@@ -19,9 +19,9 @@ df_nc = df_tat[df_tat.Type == 'Non-Clinical']
 df_c = df_tat[df_tat.Type == 'Clinical']
 
 generate_header(title='HLA TAT Status',
-                prev="pages/9_Reagents.py",
+                prev="pages/8_Repeats.py",
                 next="pages/11_Non_HLA_TAT.py",
-                status_prev='Reagents status',
+                status_prev='Repeats status',
                 status_next='Non-HLA TAT status')
 
 # Non-Clinical
@@ -70,5 +70,5 @@ st_write(tab15,10)
 st.divider()
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/9_Reagents.py", label='Prev', icon='⏮️', disabled = st.session_state['Reagents status'])
+buttons2[1].page_link("pages/8_Repeats.py", label='Prev', icon='⏮️', disabled = st.session_state['Repeats status'])
 buttons2[2].page_link("pages/11_Non_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['Non-HLA TAT status'])

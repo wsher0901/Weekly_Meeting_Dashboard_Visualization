@@ -130,7 +130,7 @@ def reagents_load(cursor,lw,tw):
         if not cursor.nextset():
             break
 
-    return reagents_transform(output)
+    #return reagents_transform(output)
     
 def new_allele_load(cursor,lw,tw,today):
     def get_gene_index():
@@ -344,7 +344,7 @@ def get_date():
 
     return last_week, this_week
 
-page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','Reagents','HLA TAT','Non-HLA TAT','New Allele']
+page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','HLA TAT','Non-HLA TAT','New Allele']
 page_dict = {'Pre PCR (High Vol)':high_volume_load,
              'Pre PCR (CMV)':cmv_load,
              'Pre PCR (Low Vol)':low_volume_load,
@@ -353,7 +353,6 @@ page_dict = {'Pre PCR (High Vol)':high_volume_load,
              'Illumina':illumina_load,
              'Pacbio':pacbio_load,
              'Repeats':repeats_load,
-             'Reagents':reagents_load,
              'HLA TAT':hla_tat_load,
              'Non-HLA TAT':non_hla_tat_load,
              'New Allele':new_allele_load}

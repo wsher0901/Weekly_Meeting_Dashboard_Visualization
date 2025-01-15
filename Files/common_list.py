@@ -17,7 +17,7 @@ colors = [
     "#5D3FD3",  # Medium Purple
     "#20B2AA"   # Light Sea Green
 ]
-page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','Reagents','HLA TAT','Non-HLA TAT','New Allele']
+page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','HLA TAT','Non-HLA TAT','New Allele']
 test_list = ['HLA','ABO-RH','CCR','CMV','DNA Extraction','ENGRAFTMENT','Illumina','KIR','Micro array','Nanopore','Non-Classical','Optical','PacBio','PGX','Whole Genome']
 gene_list = ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']
 test_list_concise_map = {'Illumina Sequencing':'Illumina','Nanopore Sequencing':'Nanopore','Non-Classical Genes':'Non-Classical',
