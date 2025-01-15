@@ -5,7 +5,8 @@ from Files.common_list import test_list, colors
 color_map = {i:j for i,j in zip(test_list,colors)}
 
 def generate_bar_chart_by_gene(df,machine_type):
-    modified_df = df[df.Type == machine_type].copy().groupby('Gene')['Sample Count'].sum().reset_index()
+    modified_df = df[df.Type == machine_type].copy()
+    modified_df = modified_df.groupby('Gene')['Sample Count'].sum().reset_index()
     fig = px.bar(modified_df,
                  x='Gene',
                  y='Sample Count',
@@ -40,8 +41,8 @@ def generate_bar_chart_by_gene(df,machine_type):
 def style_table(df,machine_type):
     modified_df = df[df.Type == machine_type].copy()
     modified_df['Gene'] = pd.Categorical(modified_df.Gene, categories=test_list,ordered=True)
-    modified_df = modified_df.sort_values(by=['Gene','Date'],ascending=True).reset_index(drop=True)
-    modified_df = modified_df[['Gene','Date','Blot Count','Plate Count','Sample Count']]
+    modified_df = modified_df.sort_values(by=['Gene'],ascending=True).reset_index(drop=True)
+    modified_df = modified_df[['Gene','Blot Count','Plate Count','Sample Count']]
     modified_df.index += 1
 
     def add_color_by_gene(row):
@@ -53,9 +54,8 @@ def style_table(df,machine_type):
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(6)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(5)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(6)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
+            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
         ])

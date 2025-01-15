@@ -1,5 +1,6 @@
 from datetime import timedelta, datetime, date, time
 import random
+import math
 from faker import Faker
 import pandas as pd
 
@@ -171,7 +172,23 @@ def generate_low_volume():
     sixth_table = df2.groupby('Gene')['Sample Count'].sum().reset_index()
     return first_table, df, third_table, fourth_table, fifth_table, sixth_table, df2.groupby(['Gene','Client'])['Sample Count'].sum().reset_index()
 
-
+def generate_pcr():
+    sample_count = random.randint(18000,20000)
+    client_count = random.randint(7,10)
+    client_name = [fake.name() for _ in range(client_count)]
+    data = []
+    for _ in range(sample_count):
+        client = random.choice(client_name)
+        data.append([random.choices(['Illumina','Pacbio'],weights=[0.8,0.2],k=1)[0],
+                     random.choices(['HLA','ABO-RH','CCR','KIR'],weights=[0.45,0.45,0.09,0.01],k=1)[0],
+                     client,
+                     client[0:3].upper(),
+                     1])
+    df = pd.DataFrame(data,columns=['Type','Gene','Client','Experiment Names','Sample Count'])
+    df = df.groupby(['Type','Gene','Client','Experiment Names'])['Sample Count'].sum().reset_index()
+    df['Blot Count'] = df.apply(lambda row: math.ceil(row['Sample Count']/400),axis=1)
+    df['Plate Count'] = df.apply(lambda row: row['Blot Count'] * random.randint(1,30),axis=1)
+    return df
 
 
 

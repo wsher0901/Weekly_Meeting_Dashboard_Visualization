@@ -14,8 +14,6 @@ st.markdown("""
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
 data = st.session_state['PCR']
-st.write(data)
-
 generate_header(title='PCR',
                 prev="pages/3_Pre_PCR_Low_Volume.py",
                 next="pages/5_Gel.py",

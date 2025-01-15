@@ -51,13 +51,10 @@ def style_cmv_statistics_table(df):
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(8)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(5)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(6)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(7)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(8)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
+            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
         ])
 
 def generate_pie_chart_for_cmv_analytics(df):
