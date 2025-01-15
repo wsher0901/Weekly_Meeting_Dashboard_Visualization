@@ -29,7 +29,7 @@ def generate_sequence_run_bar_chart(df):
 def generate_pool_count_bar_chart(df):
     modified_df = df.copy()
     modified_df['NGS Type'] = pd.Categorical(modified_df['NGS Type'], categories=['Illumina MiSeq','Illumina NovaSeq'],ordered=True)
-    modified_df = modified_df.sort_values(by=['NGS Type','Date'],ascending=True).reset_index(drop=True)
+    modified_df = modified_df.sort_values(by=['NGS Type'],ascending=True).reset_index(drop=True)
     modified_df.index += 1
 
     fig = px.bar(df, x='Experiment', y='Total Cells', color='NGS Type',color_discrete_map=illumina_color_map,text='Total Cells',)
@@ -53,7 +53,7 @@ def generate_pool_count_bar_chart(df):
 def style_pool_count_table(df):
     modified_df = df.reset_index(drop=True).copy()
     modified_df['NGS Type'] = pd.Categorical(modified_df['NGS Type'], categories=['Illumina MiSeq','Illumina NovaSeq'],ordered=True)
-    modified_df = modified_df.sort_values(by=['NGS Type','Date'],ascending=True).reset_index(drop=True)
+    modified_df = modified_df.sort_values(by=['NGS Type'],ascending=True).reset_index(drop=True)
     modified_df.index += 1
 
     def add_color_by_gene(row):
@@ -65,13 +65,10 @@ def style_pool_count_table(df):
             {'selector': 'th.row_heading', 'props': 'background-color: #FCF5E5; color: black;'},
             {'selector': 'td', 'props': [('border', '2px solid black')]},
             {'selector': 'th', 'props': [('border', '2px solid black')]},
-            {'selector': 'td:nth-child(5)','props':[('font-weight','bold')]},
+            {'selector': 'td:nth-child(4)','props':[('font-weight','bold')]},
             {'selector': 'td:nth-child(3)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
             {'selector': 'td:nth-child(4)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(6)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(7)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]},
-            {'selector': 'td:nth-child(8)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
+            {'selector': 'td:nth-child(5)', 'props': [('background-color', '#FCF5E5'), ('color', 'black')]}
 
         ])
 

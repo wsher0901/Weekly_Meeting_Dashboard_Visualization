@@ -219,7 +219,28 @@ def generate_gel():
     
     return first_table, df, third_table, df2.groupby(['Type','Category'])['Blot Count'].sum().reset_index()
                      
+def generate_illumina():
+    run_count = random.randint(8,12)
+    data = []
+    mi = 1
+    nov = 1
+    for _ in range(run_count):
+        machine = random.choices(['Illumina MiSeq','Illumina NovaSeq'],weights=[0.7,0.3],k=1)[0]
+        cell_count = random.randint(1000,10000) if machine == 'Illumina MiSeq' else random.randint(100000,145000)
+        experiment_name = mi if machine == 'Illumina MiSeq' else nov
+        data.append([machine,
+                     machine+str(0000)+'-'+str(experiment_name),
+                     cell_count,
+                     0 if machine == 'Illumina MiSeq' else 150000])
+        if machine == 'Illumina MiSeq':
+            mi+=1 
+        else:
+            nov+=1
 
+    df = pd.DataFrame(data,columns=['NGS Type','Experiment','Total Cells','Pool Threshold'])
+    first_table = df.groupby('NGS Type')['Pool Threshold'].count().reset_index()
+    first_table.rename(columns={'Pool Threshold':'Run Count'},inplace=True)
+    return first_table, df  
 
 
 
