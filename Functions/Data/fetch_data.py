@@ -6,7 +6,8 @@ from datetime import timedelta, datetime, date, time
 from dateutil.relativedelta import relativedelta
 from Functions.Transformation.Transformation import high_volume_transform, cmv_transform, low_volume_transform, pcr_transform, gel_transform, illumina_transform, \
 pacbio_transform, repeats_transform, reagents_transform, hla_tat_transform, non_hla_tat_transform
-from Functions.Data.generate_data import generate_high_volume, generate_cmv, generate_low_volume, generate_pcr, generate_gel, generate_illumina
+from Functions.Data.generate_data import generate_high_volume, generate_cmv, generate_low_volume, generate_pcr, generate_gel, generate_illumina, \
+generate_pacbio
 tz = timezone('EST')
 
 def connect():
@@ -105,7 +106,8 @@ def pacbio_load(cursor,lw,tw):
         if not cursor.nextset():
             break
 
-    return pacbio_transform(output)
+    #return pacbio_transform(output)
+    return generate_pacbio()
 
 def repeats_load(cursor,lw,tw):
     cursor.execute('use HistoSDB')

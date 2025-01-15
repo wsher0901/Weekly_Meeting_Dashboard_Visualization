@@ -14,7 +14,6 @@ st.markdown("""
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
 data = st.session_state['Pacbio']
-
 generate_header(title='Pacbio',
                 prev="pages/6_Illumina.py",
                 next="pages/8_Repeats.py",

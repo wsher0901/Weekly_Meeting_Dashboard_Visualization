@@ -242,6 +242,25 @@ def generate_illumina():
     first_table.rename(columns={'Pool Threshold':'Run Count'},inplace=True)
     return first_table, df  
 
+def generate_pacbio():
+    run_count = random.randint(4,9)
+    data = []
+    experiment_name = {'Pacbio Sequel-I':1,'Pacbio Sequel-II':1,'Pacbio Sequel-IIe':1}
+    for _ in range(run_count):
+        machine = random.choices(['Pacbio Sequel-I','Pacbio Sequel-II','Pacbio Sequel-IIe'],weights=[0.6,0.2,0.2],k=1)[0]
+        cell_count = random.randint(1000,10000)
+        data.append([machine,
+                     cell_count,
+                     machine+'0000-'+str(experiment_name[machine]),
+                     machine+'0000-'+str(experiment_name[machine])+random.choice(['A','B']),
+                     random.choices(['LR','SR'],weights=[0.3,0.7],k=1)[0]])
+        experiment_name[machine] += 1
+
+    df = pd.DataFrame(data,columns=['Pacbio Type','Total Cells','Job Name','Run Name','Job Type'])
+    first_table = df.groupby('Pacbio Type')['Total Cells'].count().reset_index()
+    first_table.rename(columns={'Total Cells':'Run Count'},inplace=True)
+    df.rename(columns={'Pacbio Type':'Machine Type'},inplace=True)
+    return first_table, df  
 
 
 
