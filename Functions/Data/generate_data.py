@@ -262,5 +262,33 @@ def generate_pacbio():
     df.rename(columns={'Pacbio Type':'Machine Type'},inplace=True)
     return first_table, df  
 
+def generate_repeats():
+    experiment_count = random.randint(15,20)
+    data = []
+    for _ in range(experiment_count):
+        machine_type = random.choices(['NGS','Pacbio'],weights=[0.7,0.3],k=1)[0]
+        temp = []
+        if machine_type == 'NGS':
+            temp = [fake.name()[0:3]+str(random.randint(100000,999999))]
+        else:
+            temp = ['PAC'+str(random.randint(100000,999999))+fake.name()[0:3]]
+        sample_count = random.randint(300,750)
+        max_repeat = 0
+        for i in ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']:
+            per_gene = random.randint(sample_count-200,sample_count)
+            repeat = random.randint(0,int(per_gene*0.1))
+            temp.append(per_gene)
+            temp.append(repeat)
+            if repeat > max_repeat: 
+                max_repeat = repeat
+            temp.append(round(repeat/per_gene*100,2))
 
+        temp.append(sample_count)
+        overall_repeat = max_repeat+random.randint(0,10)
+        temp.append(overall_repeat)
+        temp.append(round(overall_repeat/sample_count*100,2))
 
+        data.append(temp)
+
+    df = pd.DataFrame(data,columns=['Experiment'] +[f"{cat} {stat}" for cat in ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1','Overall'] for stat in ['Total','Repeat','%']])
+    return df 

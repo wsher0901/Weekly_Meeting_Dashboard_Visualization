@@ -14,7 +14,9 @@ st.markdown("""
 gene_list = ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
-ngs,pac, ngs_by_client, pac_by_client = st.session_state['Repeats']
+data = st.session_state['Repeats']
+ngs = data[~data.Experiment.str[:3].isin(['PAC'])]
+pac = data[data.Experiment.str[:3].isin(['PAC'])]
 generate_header(title='Repeats',
                 prev="pages/7_Pacbio.py",
                 next="pages/9_Reagents.py",
@@ -22,18 +24,12 @@ generate_header(title='Repeats',
                 status_next='Reagents status')
 
 with st.container():
-    for i,j in zip(['NGS','Pacbio'],[[ngs,ngs_by_client],[pac,pac_by_client]]):
+    for i,j in zip(['NGS'],[ngs]):
         st.markdown(generate_markdown(i,font_size=60,font_color='black'),unsafe_allow_html=True)
-        if len(j[0]) != 0:
-                st.plotly_chart(generate_weekly_data(j[0],i),use_container_width=True)
-
-        for tab,l in zip(st.tabs(['By Experiment','By Client']),[0,1]):
-            data = j[l]
-            if len(data) != 0:
-                tab.table(style_detail_chart(data,i))
-            else:
-                tab.markdown(generate_markdown(text='No Data from '+i,font_size=60,font_color='#f9423a'),unsafe_allow_html=True)
-            st_write(st,4)
+        if len(j) != 0:
+            st.plotly_chart(generate_weekly_data(j,i),use_container_width=True)
+            st.table(style_detail_chart(j,i))
+        st_write(st,4)
 
 
 with st.container(border=True): # Comment

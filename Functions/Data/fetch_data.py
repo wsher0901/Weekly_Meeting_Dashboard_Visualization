@@ -7,7 +7,7 @@ from dateutil.relativedelta import relativedelta
 from Functions.Transformation.Transformation import high_volume_transform, cmv_transform, low_volume_transform, pcr_transform, gel_transform, illumina_transform, \
 pacbio_transform, repeats_transform, reagents_transform, hla_tat_transform, non_hla_tat_transform
 from Functions.Data.generate_data import generate_high_volume, generate_cmv, generate_low_volume, generate_pcr, generate_gel, generate_illumina, \
-generate_pacbio
+generate_pacbio, generate_repeats
 tz = timezone('EST')
 
 def connect():
@@ -118,7 +118,8 @@ def repeats_load(cursor,lw,tw):
     #cursor.execute(f"EXEC GetExperimentAndSampleDetails '{lw.strftime('%m/%d/%Y')}', '{tw.strftime('%m/%d/%Y')}'")
     # New SP
     cursor.execute(f"EXEC GetDashBoardRepeatsSamplesSummary '{lw.strftime('%m/%d/%Y')}', '{tw.strftime('%m/%d/%Y')}'")
-    return repeats_transform([list(i) for i in cursor.fetchall()],protocol_dict,lw)
+    #return repeats_transform([list(i) for i in cursor.fetchall()],protocol_dict,lw)
+    return generate_repeats()
 
 def reagents_load(cursor,lw,tw):
     output = []
