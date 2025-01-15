@@ -190,7 +190,35 @@ def generate_pcr():
     df['Plate Count'] = df.apply(lambda row: row['Blot Count'] * random.randint(1,30),axis=1)
     return df
 
+def generate_gel():
+    sample_count = random.randint(6,12)
+    data = []
+    for _ in range(sample_count):
+        data.append([random.choices(['Illumina','Pacbio'],weights=[0.6,0.4],k=1)[0],
+                     random.randint(10,40),
+                     random.randint(10,120),
+                     random.randint(0,5),
+                     random.randint(0,5)])
 
+    df = pd.DataFrame(data,columns=['Type','Gel Count','Amplicon Count','Rerun Count','Repeat Count'])
+    df['Total Amplicons'] = df.apply(lambda row: row['Amplicon Count'] + row['Rerun Count'] + row['Repeat Count'],axis=1)
+    df['Gel Row Count'] = df.apply(lambda row: random.randint(row['Amplicon Count'],row['Amplicon Count'] + 50),axis=1)
+
+    first_table = df.groupby('Type')[['Gel Count','Amplicon Count','Rerun Count','Repeat Count','Total Amplicons','Gel Row Count']].sum().reset_index()
+
+    sample_count = random.randint(50,100)
+    data = []
+    for _ in range(sample_count):
+        ilu_or_pac = random.choices(['Illumina','Pacbio'],weights=[0.6,0.4],k=1)[0]
+        data.append([ilu_or_pac,
+                     ilu_or_pac + ' Category-' + random.choice(['I','II','III']),
+                    1])
+                     
+    df2 = pd.DataFrame(data,columns=['Type','Category','Blot Count'])
+    third_table = df2.groupby('Type')['Blot Count'].sum().reset_index()
+    
+    return first_table, df, third_table, df2.groupby(['Type','Category'])['Blot Count'].sum().reset_index()
+                     
 
 
 

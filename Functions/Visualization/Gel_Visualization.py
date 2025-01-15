@@ -36,7 +36,7 @@ def generate_comprehensive_bar_chart(df):
 def style_gel_details(df):
     modified_df = df.copy()
     modified_df['Type'] = pd.Categorical(modified_df.Type, categories=['Illumina','Pacbio'],ordered=True)
-    modified_df = modified_df.sort_values(by=['Type','Date'],ascending=True).reset_index(drop=True)
+    modified_df = modified_df.sort_values(by=['Type'],ascending=True).reset_index(drop=True)
     modified_df.index += 1
 
     def add_color_by_gene(row):

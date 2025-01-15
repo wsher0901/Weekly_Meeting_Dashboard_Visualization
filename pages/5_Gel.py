@@ -13,8 +13,7 @@ st.markdown("""
 
 tz = timezone('EST')
 st.logo('Histogenetics_Logo.png')
-gel_summary,gel_specific,blot_summary,blot_specific,rejection = st.session_state['Gel']
-
+gel_summary,gel_specific,blot_summary,blot_specific = st.session_state['Gel']
 generate_header(title='Gel',
                 prev="pages/4_PCR.py",
                 next="pages/6_Illumina.py",
@@ -40,14 +39,6 @@ with st.container(): # second section
     s2.write(generate_markdown('Pacbio', font_size=30,font_color='#66A7C5'), unsafe_allow_html=True)
     s2.write(generate_markdown(blot_summary[blot_summary.Type == 'Pacbio']['Blot Count'].iloc[0], font_size=120,font_color='black'), unsafe_allow_html=True)
     st.expander('Blot Details').table(style_blot_details(blot_specific))
-
-
-with st.container(): # third section
-    if len(rejection) != 0:
-        st_write(st,8)
-        st.write(generate_markdown('Rejection', font_size=60,font_color='black'), unsafe_allow_html=True)
-        st_write(st,4)
-        st.table(style_rejection_details(rejection))
 
 with st.container(border=True): # Comment
     font_size = 20
