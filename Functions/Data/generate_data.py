@@ -7,7 +7,7 @@ import pandas as pd
 fake = Faker()
 
 countries = ["United States","Canada","United Kingdom","Germany","France","Italy","Spain","Australia","New Zealand",
-             "China","Japan","India","Brazil","Mexico","Russia","South Africa","Argentina","Egypt""Turkey","Switzerland",
+             "China","Japan","India","Brazil","Mexico","South Africa","Argentina","Egypt""Turkey","Switzerland",
              "Netherlands","Sweden","Norway","Denmark","Greece","Thailand","South Korea","Indonesia","Vietnam","Saudi Arabia"]
 
 def get_date():
