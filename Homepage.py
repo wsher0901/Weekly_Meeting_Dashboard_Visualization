@@ -22,9 +22,8 @@ if 'lw' not in st.session_state:
     st.session_state.lw = lw
     st.session_state.tw = tw
 
-st.logo('Histogenetics_Logo.png')
 col1,col2,col3 = st.columns(3)
-col2.image('Histogenetics_Logo.png')
+col2.image('MyLogo.png')
 col2.markdown(f"<h1 style='text-align: center;font-size: 40px;font-family: Arial;color: #f9423a;padding-bottom: 0;'>{st.session_state.lw.strftime('%m/%d/%y')} ~ {st.session_state.tw.strftime('%m/%d/%y')}</h1>", unsafe_allow_html=True)
 st.write('')
 st.write('')

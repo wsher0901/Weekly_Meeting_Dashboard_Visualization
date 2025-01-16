@@ -21,7 +21,7 @@ st.markdown("""
                 }
         </style>
         """, unsafe_allow_html=True)
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 gene_location, gene_codon, data, border,non_border,table = st.session_state['New Allele']
 st.session_state.data, st.session_state.gl, st.session_state.gc = data, gene_location, gene_codon
 if 'data' not in st.session_state:

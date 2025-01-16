@@ -13,7 +13,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 df = st.session_state['Non-HLA TAT']
 
 generate_header(title='Non-HLA TAT Status',

@@ -13,7 +13,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 gene_order = ['HLA','ABO-RH','CCR','CMV','DNA Extraction','ENGRAFTMENT','Illumina','KIR','Micro array','Nanopore','Non-Classical','Optical','PacBio','PGX','Whole Genome']
 table1, table2, table3 = st.session_state['Pre PCR (High Vol)']
 

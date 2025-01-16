@@ -12,7 +12,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 gel_summary,gel_specific,blot_summary,blot_specific = st.session_state['Gel']
 generate_header(title='Gel',
                 prev="pages/4_PCR.py",

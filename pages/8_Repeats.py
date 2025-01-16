@@ -13,7 +13,7 @@ st.markdown("""
 
 gene_list = ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1']
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 data = st.session_state['Repeats']
 ngs = data[~data.Experiment.str[:3].isin(['PAC'])]
 pac = data[data.Experiment.str[:3].isin(['PAC'])]

@@ -23,113 +23,113 @@ def disconnect(cursor):
     cursor.close()
 
 def high_volume_load(cursor, lw, tw):       
-    output = []
-    cursor.execute(f"EXEC GetDashBoardPrePCRHVSummary '{lw.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}',NULL")
+    # output = []
+    # cursor.execute(f"EXEC GetDashBoardPrePCRHVSummary '{lw.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}',NULL")
     
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return high_volume_transform(output)
     return generate_high_volume()
 
 def cmv_load(cursor,lw,tw):
-    output= []
-    cursor.execute('use HistoSDB')
-    cursor.execute(f"declare @MeetingDetails varchar(max) exec GetDashBoardPrePCRHVCMVSummary '{lw.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}',NULL,@MeetingDetails output")
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # output= []
+    # cursor.execute('use HistoSDB')
+    # cursor.execute(f"declare @MeetingDetails varchar(max) exec GetDashBoardPrePCRHVCMVSummary '{lw.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}',NULL,@MeetingDetails output")
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return cmv_transform(output)
     return generate_cmv()
 
 def low_volume_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) EXEC GetDashBoardPrePCRClinicalSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
-    cursor.execute(query)
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) EXEC GetDashBoardPrePCRClinicalSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
+    # cursor.execute(query)
     
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return low_volume_transform(output)
     return generate_low_volume()
 
 def pcr_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) exec GetDashBoardPCRSummary  '{lw.strftime('%m/%d/%Y')}' ,'{tw.strftime('%m/%d/%Y')}',0,@MeetingDetails output"
-    cursor.execute(query)
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) exec GetDashBoardPCRSummary  '{lw.strftime('%m/%d/%Y')}' ,'{tw.strftime('%m/%d/%Y')}',0,@MeetingDetails output"
+    # cursor.execute(query)
     
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return pcr_transform(output)
     return generate_pcr()
 
 def gel_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) exec GetDashBoardGelSummary'{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
-    cursor.execute(query)
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) exec GetDashBoardGelSummary'{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
+    # cursor.execute(query)
     
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return gel_transform(output)
     return generate_gel()
 
 def illumina_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) exec GetDashBoardNextGenSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output --,1,100"
-    cursor.execute(query)
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) exec GetDashBoardNextGenSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output --,1,100"
+    # cursor.execute(query)
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return illumina_transform(output)
     return generate_illumina()
 
 def pacbio_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) exec GetDashBoardPacbioSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output --,1,100"
-    cursor.execute(query)
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) exec GetDashBoardPacbioSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output --,1,100"
+    # cursor.execute(query)
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
 
     #return pacbio_transform(output)
     return generate_pacbio()
 
 def repeats_load(cursor,lw,tw):
-    cursor.execute('use HistoSDB')
-    cursor.execute(f"EXEC GetDashboardRepeatExperiments '{tw.strftime('%m/%d/%Y')}'")
-    protocol_dict = {i:j for i,j,k in cursor.fetchall()}
+    # cursor.execute('use HistoSDB')
+    # cursor.execute(f"EXEC GetDashboardRepeatExperiments '{tw.strftime('%m/%d/%Y')}'")
+    # protocol_dict = {i:j for i,j,k in cursor.fetchall()}
     
     # Previous SP
     #cursor.execute(f"EXEC GetExperimentAndSampleDetails '{lw.strftime('%m/%d/%Y')}', '{tw.strftime('%m/%d/%Y')}'")
     # New SP
-    cursor.execute(f"EXEC GetDashBoardRepeatsSamplesSummary '{lw.strftime('%m/%d/%Y')}', '{tw.strftime('%m/%d/%Y')}'")
+    # cursor.execute(f"EXEC GetDashBoardRepeatsSamplesSummary '{lw.strftime('%m/%d/%Y')}', '{tw.strftime('%m/%d/%Y')}'")
     #return repeats_transform([list(i) for i in cursor.fetchall()],protocol_dict,lw)
     return generate_repeats()
 
 def reagents_load(cursor,lw,tw):
-    output = []
-    query = f"declare @MeetingDetails varchar(max) exec GetDashBoardReagentSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
-    cursor.execute(query)
-    while True:
-        output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-        if not cursor.nextset():
-            break
-
+    # output = []
+    # query = f"declare @MeetingDetails varchar(max) exec GetDashBoardReagentSummary '{lw.strftime('%Y/%m/%d')}' ,'{tw.strftime('%Y/%m/%d')}',0,@MeetingDetails output"
+    # cursor.execute(query)
+    # while True:
+    #     output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #     if not cursor.nextset():
+    #         break
+    return
     #return reagents_transform(output)
     
 def new_allele_load(cursor,lw,tw,today):
@@ -358,8 +358,7 @@ page_dict = {'Pre PCR (High Vol)':high_volume_load,
              'New Allele':new_allele_load}
 
 def load_data(lw,tw,choice):
-    cursor = connect()
-    cursor.execute('use HistoSDB')
+    cursor = None
     today = datetime.now(tz) + timedelta(hours=1)
     bar = st.progress(0)
     counter = 0
@@ -398,7 +397,7 @@ def load_data(lw,tw,choice):
             if i in st.session_state:
                 del st.session_state[i]
             st.session_state[i+' status'] = True
-    disconnect(cursor)
+    #disconnect(cursor)
 
 def load_meeting(lw,tw):
     file_path = 'Archive/' + (tw+timedelta(days=1)).strftime('%m_%d_%y')

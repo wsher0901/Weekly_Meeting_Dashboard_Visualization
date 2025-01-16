@@ -13,7 +13,7 @@ st.markdown("""
 
 # Data 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 df_tat, df_by_final = st.session_state['HLA TAT']
 df_nc = df_tat[df_tat.Type == 'Non-Clinical']
 df_c = df_tat[df_tat.Type == 'Clinical']

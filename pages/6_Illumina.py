@@ -12,7 +12,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 data = st.session_state['Illumina']
 generate_header(title='Illumina',
                 prev="pages/5_Gel.py",

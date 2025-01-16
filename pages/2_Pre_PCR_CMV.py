@@ -12,7 +12,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 tz = timezone('EST')
-st.logo('Histogenetics_Logo.png')
+st.logo('MyLogo.png')
 data = st.session_state['Pre PCR (CMV)']
 generate_header(title='Pre PCR (CMV)',
                 prev="pages/1_Pre_PCR_High_Volume.py",
