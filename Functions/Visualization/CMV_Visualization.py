@@ -116,10 +116,10 @@ def style_cmv_analytics_table(df):
             {'selector': 'th.col7', 'props': [('background-color', '#a9d08e'),('color', 'black')]}, 
             {'selector': 'th.col8', 'props': [('background-color', '#ff9793'),('color', 'black')]}   
         ]
-    ).map(color_column_pos, subset=['Positive Rate']) \
-    .map(color_column_neg, subset=['Negative Rate']) \
-    .map(color_column_equ, subset=['Equivocal Rate']) \
-    .map(lambda x: 'color: black', subset = ['Negative Rate','Positive Rate','Equivocal Rate'])
+    ).applymap(color_column_pos, subset=['Positive Rate']) \
+    .applymap(color_column_neg, subset=['Negative Rate']) \
+    .applymap(color_column_equ, subset=['Equivocal Rate']) \
+    .applymap(lambda x: 'color: black', subset = ['Negative Rate','Positive Rate','Equivocal Rate'])
 
 def generate_box_plot_chart_for_cmv_analytics(df):
     fig = go.Figure()
