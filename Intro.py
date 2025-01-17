@@ -11,8 +11,8 @@ st.markdown("""
 
 
 
-one,two,three = st.container().columns([2,5,2])
-two.image('MyLogo.png',width=700)
+one,two,three = st.container().columns([1,2,1])
+two.image('MyLogo.png',width=1200)
 col1,col2,col3 = st.container().columns(3)
 col1.markdown(f"<h1 style='text-align: center;font-size: 60px;font-family: Calibri;color: #f9423a;padding-bottom: 0;'>Purpose</h1>", unsafe_allow_html=True)
 col1.markdown(f"<h1 style='text-align: center;font-size: 20px;font-family: Calibri;color: black;padding-bottom: 0;'>This is a comprehensive dashboard I have created during my tenure at Histogenetics LLC.</h1>", unsafe_allow_html=True)
