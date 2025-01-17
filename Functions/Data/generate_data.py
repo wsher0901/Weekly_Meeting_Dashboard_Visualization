@@ -292,3 +292,107 @@ def generate_repeats():
 
     df = pd.DataFrame(data,columns=['Experiment'] +[f"{cat} {stat}" for cat in ['A','B','C','DRB1','DRB345','DQB1','DQA1','DPB1','DPA1','Overall'] for stat in ['Total','Repeat','%']])
     return df 
+
+def generate_hla():
+
+    def modify_comment_category(row):
+        if row['Delay Status'] == 'Delayed':
+            if row['IsMultipleExtensionRequestAllowed'] == True:
+                return 'Extended'
+            else:
+                return random.choice(['Test Delay','Test Failed','Test Quality issues','Waiting for Repeat','Hold Report','Others'])
+        else:
+            return ''
+
+    def add_time(df):
+        columns_to_check = ['Project Name', 'Class I TAT','Type']
+        temp = df[df.duplicated(subset=columns_to_check, keep=False)]
+        temp = temp.groupby(['Project Name','Class I TAT'])['Type'].count()
+        temp = temp.reset_index().values.tolist()
+        duplicates = {}
+        for i in temp:
+            if i[0] not in duplicates:
+                duplicates[i[0]] = {i[1]:[i[2], datetime.combine(i[1],datetime.min.time()) - timedelta(hours=11)]}
+            else:
+                duplicates[i[0]][i[1]] = [i[2], datetime.combine(i[1],datetime.min.time()) - timedelta(hours=11)]
+
+        start = []
+        end = []
+        for index,row in df.iterrows():
+            if row['Project Name'] not in duplicates:
+                start.append(datetime.combine(row['Class I TAT'], datetime.min.time()) - timedelta(hours=11))
+                end.append(datetime.combine(row['Class I TAT'], datetime.min.time()) + timedelta(hours=11))
+            else:
+                if row['Class I TAT'] not in duplicates[row['Project Name']]:
+                    start.append(datetime.combine(row['Class I TAT'], datetime.min.time()) - timedelta(hours=11))
+                    end.append(datetime.combine(row['Class I TAT'], datetime.min.time()) + timedelta(hours=11))
+                else:
+                    divide = duplicates[row['Project Name']][row['Class I TAT']][0]
+                    individual_hour = (22 - (divide-1)*0.5)/ divide
+                    begin_time = duplicates[row['Project Name']][row['Class I TAT']][1]
+                    start.append(begin_time)
+                    end.append(begin_time+timedelta(hours=individual_hour))
+                    duplicates[row['Project Name']][row[due_date]][1] = begin_time + timedelta(hours=individual_hour) + timedelta(hours=0.5)
+
+        df['Start'] = start
+        df['Finish'] = end
+        return df
+    columns = ['Client','Project Name','Shipment Date','Sample Count','Class I TAT','Class II TAT','C1 Report','C2 Report',
+              'C1 Not Reported','C2 Not Reported','C1 Requested','C2 Requested','C1ReportWithinTATCount',
+              'C2ReportWithinTATCount','C1ReportWithinTATPercent','C2ReportWithinTATPercent','C1ReportWithinFinalCount',
+              'C2ReportWithinFinalCount','Type','IsMultipleExtensionRequestAllowed','Comment','Commentor',
+              'C1 by TAT','C1% by TAT','C2 by TAT','C2% by TAT','C1 by Today','C1% by Today','C2 by Today','C2% by Today',
+              'By TAT','By Today']
+    lw,tw = get_date()
+    date_list = [lw + timedelta(days=x)for x in range((tw - lw).days + 1)]
+    client_count = random.randint(20,35)
+    data = []
+    for _ in range(client_count):
+        client = fake.name()
+        tat = random.choice(date_list)
+        sample_count = random.randint(1,2000)
+        c1,c2 = random.randint(int(sample_count*0.6),sample_count), random.randint(int(sample_count*0.6),sample_count)
+        c1_final, c2_final = c1+random.randint(0,sample_count-c1), c2+random.randint(0,sample_count-c2)
+        non_or_clinical = random.choices(['Non-Clinical','Clinical'],weights=[0.4,0.6],k=1)[0]
+        extension = random.choices([True,False],weights=[0.4,0.6],k=1)[0] if non_or_clinical == 'Clinical' else \
+        random.choices([True,False],weights=[0.2,0.8],k=1)[0]
+        data.append([client,
+                     client[0:3].upper(),
+                     tat + timedelta(days = -21),
+                     sample_count,
+                     tat,
+                     tat,
+                     c1,
+                     c2,
+                     sample_count-c1,
+                     sample_count-c2,
+                     sample_count,
+                     sample_count,
+                     c1,
+                     c2,
+                     round(c1/sample_count*100,2),
+                     round(c2/sample_count*100,2),
+                     c1_final,
+                     c2_final,
+                     random.choices(['Non-Clinical','Clinical'],weights=[0.4,0.6],k=1)[0],
+                     extension,
+                     fake.sentence(),
+                     random.choice(['Person A','Person B','Person C']),
+                     str(c1)+'/'+str(sample_count),
+                     str(round(c1/sample_count*100,2))+'%',
+                     str(c2)+'/'+str(sample_count),
+                     str(round(c2/sample_count*100,2))+'%',
+                     str(c1_final)+'/'+str(sample_count),
+                     str(round(c1_final/sample_count*100,2))+'%',
+                     str(c2_final)+'/'+str(sample_count),
+                     str(round(c2_final/sample_count*100,2))+'%',
+                     '('+str(c1)+'/'+str(sample_count)+'), ' + '(' + str(c2)+'/'+str(sample_count) + ')',
+                     '('+str(c1_final)+'/'+str(sample_count)+'), ' + '(' + str(c2_final)+'/'+str(sample_count) + ')',
+                    ])
+
+    df = pd.DataFrame(data,columns=columns)
+    df['Delay Status'] = df.apply(lambda row: 'Delayed' if (row['C1ReportWithinTATPercent'] < 90 or row['C2ReportWithinTATPercent'] < 90) \
+                                          else 'Completed', axis=1)
+    df['Comment Category'] = df.apply(lambda row: modify_comment_category(row),axis=1)
+    df = add_time(df)
+    return df
