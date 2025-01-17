@@ -47,7 +47,7 @@ on = on_button.toggle('Visualize')
 
 if not on: 
     generate_header(title='New Allele',
-                    prev="pages/11_Non_HLA_TAT.py",
+                    prev="sections/11_Non_HLA_TAT.py",
                     status_prev='Non-HLA TAT status')
 
     details = st.expander('Details..')
@@ -170,7 +170,7 @@ if not on:
 
     st.write('')
     buttons2 = st.columns([5,0.5,0.5,5])
-    buttons2[1].page_link("pages/11_Non_HLA_TAT.py", label="Prev", icon="⏮️", disabled = st.session_state['Non-HLA TAT status'])
+    buttons2[1].page_link("sections/11_Non_HLA_TAT.py", label="Prev", icon="⏮️", disabled = st.session_state['Non-HLA TAT status'])
 
 else: 
     gene = sidebar.radio('Select Gene: ',sorted(st.session_state.data[1].keys(),key=lambda x: gene_order.index(x))) if len(st.session_state.data[1].keys()) == 1 else sidebar.selectbox("Select Gene",options=sorted(st.session_state.data[1].keys(),key=lambda x: gene_order.index(x)))
