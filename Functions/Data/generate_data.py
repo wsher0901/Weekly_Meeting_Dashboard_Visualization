@@ -351,7 +351,7 @@ def generate_hla():
         client = fake.name()
         tat = random.choice(date_list)
         sample_count = random.randint(1,2000)
-        ratio = random.choices([0.85,0,0.2],weights=[0.9,0.02,0.08],k=1)[0]
+        ratio = random.choices([0.88,0,0.2],weights=[0.9,0.02,0.08],k=1)[0]
         c1,c2 = random.randint(int(sample_count*ratio),sample_count), random.randint(int(sample_count*ratio),sample_count)
         c1_final, c2_final = c1+random.randint(0,sample_count-c1), c2+random.randint(0,sample_count-c2)
         non_or_clinical = random.choices(['Non-Clinical','Clinical'],weights=[0.4,0.6],k=1)[0]
