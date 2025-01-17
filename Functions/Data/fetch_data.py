@@ -7,7 +7,7 @@ from dateutil.relativedelta import relativedelta
 from Functions.Transformation.Transformation import high_volume_transform, cmv_transform, low_volume_transform, pcr_transform, gel_transform, illumina_transform, \
 pacbio_transform, repeats_transform, reagents_transform, hla_tat_transform, non_hla_tat_transform
 from Functions.Data.generate_data import generate_high_volume, generate_cmv, generate_low_volume, generate_pcr, generate_gel, generate_illumina, \
-generate_pacbio, generate_repeats
+generate_pacbio, generate_repeats, generate_hla
 tz = timezone('EST')
 
 def connect():
@@ -299,19 +299,20 @@ def new_allele_load(cursor,lw,tw,today):
     return gene_location,gene_codon,data,border,non_border,table
 
 def hla_tat_load(cursor,lw,tw):
-    output = []
-    before = tw-timedelta(days=90)
-    non_clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','N',1" 
-    clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','C',1"
-    extension_query = "select * from AutoExtensionRequestClientProjects"
-    for i in [non_clinical_query,clinical_query,extension_query]:
-        cursor.execute(i)
-        while True:
-            output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-            if not cursor.nextset():
-                break
+    # output = []
+    # before = tw-timedelta(days=90)
+    # non_clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','N',1" 
+    # clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','C',1"
+    # extension_query = "select * from AutoExtensionRequestClientProjects"
+    # for i in [non_clinical_query,clinical_query,extension_query]:
+    #     cursor.execute(i)
+    #     while True:
+    #         output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #         if not cursor.nextset():
+    #             break
 
-    return hla_tat_transform(output,lw,tw)
+    # return hla_tat_transform(output,lw,tw)
+    return generate_hla()
 
 def non_hla_tat_load(cursor,lw,tw):
     output = []
