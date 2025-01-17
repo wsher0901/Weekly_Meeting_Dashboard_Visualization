@@ -14,13 +14,13 @@ st.markdown("""
 # Data 
 tz = timezone('EST')
 st.logo('MyLogo.png')
-df_tat, df_by_final = st.session_state['HLA TAT']
-df_nc = df_tat[df_tat.Type == 'Non-Clinical']
-df_c = df_tat[df_tat.Type == 'Clinical']
+df = st.session_state['HLA TAT']
+df_nc = df[df.Type == 'Non-Clinical']
+df_c = df[df.Type == 'Clinical']
 
 generate_header(title='HLA TAT Status',
-                prev="pages/8_Repeats.py",
-                next="pages/11_Non_HLA_TAT.py",
+                prev="sections/8_Repeats.py",
+                next="sections/11_Non_HLA_TAT.py",
                 status_prev='Repeats status',
                 status_next='Non-HLA TAT status')
 
@@ -53,22 +53,8 @@ st_write(tab10,5)
 tab10.table(make_comment(df_c,True))
 st_write(tab10,10)
 
-# Final Due
-st.write(generate_markdown('Final Due', font_size=60,font_color='black'), unsafe_allow_html=True)
-traffic_light(df_by_final,'Final',st)
-tab11, tab12, tab13, tab14, tab15 = st.tabs(['C1 Sample','C2 Sample','Shipment','Timeline','Comments'])
-generate_sample_statistics(tab11,df_by_final,False,True)
-generate_sample_statistics(tab12,df_by_final,False,False)
-generate_shipment_statistics(tab13,df_by_final)
-g9,g10,g11,g12 = tab14.columns(4)
-f_switch = g11.toggle('Show Only Delay',key=3,value=True)
-tab14.plotly_chart(make_timeline(df_by_final,f_switch, False),use_container_width=True)
-st_write(tab15,5)
-tab15.table(make_comment(df_by_final,False))
-st_write(tab15,10)
-
 st.divider()
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/8_Repeats.py", label='Prev', icon='⏮️', disabled = st.session_state['Repeats status'])
-buttons2[2].page_link("pages/11_Non_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['Non-HLA TAT status'])
+buttons2[1].page_link("sections/8_Repeats.py", label='Prev', icon='⏮️', disabled = st.session_state['Repeats status'])
+buttons2[2].page_link("sections/11_Non_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['Non-HLA TAT status'])

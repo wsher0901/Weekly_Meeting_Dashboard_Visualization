@@ -17,7 +17,7 @@ st.logo('MyLogo.png')
 gene_order = ['HLA','ABO-RH','CCR','CMV','DNA Extraction','ENGRAFTMENT','Illumina','KIR','Micro array','Nanopore','Non-Classical','Optical','PacBio','PGX','Whole Genome']
 table1, table2, table3 = st.session_state['Pre PCR (High Vol)']
 
-generate_header(title= 'Pre-PCR (High Volume)', next= 'pages/2_Pre_PCR_CMV.py', status_next='Pre PCR (CMV) status')
+generate_header(title= 'Pre-PCR (High Volume)', next= 'sections/2_Pre_PCR_CMV.py', status_next='Pre PCR (CMV) status')
 
 
 with st.container(): # first section
@@ -77,4 +77,4 @@ with st.container(border=True): # Comment
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[2].page_link("pages/2_Pre_PCR_CMV.py", label="Next", icon="⏭️", disabled = st.session_state['Pre PCR (CMV) status'])
+buttons2[2].page_link("sections/2_Pre_PCR_CMV.py", label="Next", icon="⏭️", disabled = st.session_state['Pre PCR (CMV) status'])

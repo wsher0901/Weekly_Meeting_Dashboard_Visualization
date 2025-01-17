@@ -332,7 +332,7 @@ def generate_hla():
                     begin_time = duplicates[row['Project Name']][row['Class I TAT']][1]
                     start.append(begin_time)
                     end.append(begin_time+timedelta(hours=individual_hour))
-                    duplicates[row['Project Name']][row[due_date]][1] = begin_time + timedelta(hours=individual_hour) + timedelta(hours=0.5)
+                    duplicates[row['Project Name']][row['Class I TAT']][1] = begin_time + timedelta(hours=individual_hour) + timedelta(hours=0.5)
 
         df['Start'] = start
         df['Finish'] = end
@@ -340,7 +340,7 @@ def generate_hla():
     columns = ['Client','Project Name','Shipment Date','Sample Count','Class I TAT','Class II TAT','C1 Report','C2 Report',
               'C1 Not Reported','C2 Not Reported','C1 Requested','C2 Requested','C1ReportWithinTATCount',
               'C2ReportWithinTATCount','C1ReportWithinTATPercent','C2ReportWithinTATPercent','C1ReportWithinFinalCount',
-              'C2ReportWithinFinalCount','Type','IsMultipleExtensionRequestAllowed','Comment','Commentor',
+              'C2ReportWithinFinalCount','Type','IsMultipleExtensionRequestAllowed','Comment','ReportSubComments','Commentor',
               'C1 by TAT','C1% by TAT','C2 by TAT','C2% by TAT','C1 by Today','C1% by Today','C2 by Today','C2% by Today',
               'By TAT','By Today']
     lw,tw = get_date()
@@ -351,7 +351,8 @@ def generate_hla():
         client = fake.name()
         tat = random.choice(date_list)
         sample_count = random.randint(1,2000)
-        c1,c2 = random.randint(int(sample_count*0.6),sample_count), random.randint(int(sample_count*0.6),sample_count)
+        ratio = random.choices([0.8,0,0.2],weights=[0.8,0.02,0.18],k=1)[0]
+        c1,c2 = random.randint(int(sample_count*ratio),sample_count), random.randint(int(sample_count*ratio),sample_count)
         c1_final, c2_final = c1+random.randint(0,sample_count-c1), c2+random.randint(0,sample_count-c2)
         non_or_clinical = random.choices(['Non-Clinical','Clinical'],weights=[0.4,0.6],k=1)[0]
         extension = random.choices([True,False],weights=[0.4,0.6],k=1)[0] if non_or_clinical == 'Clinical' else \
@@ -377,6 +378,7 @@ def generate_hla():
                      random.choices(['Non-Clinical','Clinical'],weights=[0.4,0.6],k=1)[0],
                      extension,
                      fake.sentence(),
+                     '',
                      random.choice(['Person A','Person B','Person C']),
                      str(c1)+'/'+str(sample_count),
                      str(round(c1/sample_count*100,2))+'%',

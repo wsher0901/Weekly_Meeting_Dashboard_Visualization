@@ -15,8 +15,8 @@ tz = timezone('EST')
 st.logo('MyLogo.png')
 data = st.session_state['Pre PCR (CMV)']
 generate_header(title='Pre PCR (CMV)',
-                prev="pages/1_Pre_PCR_High_Volume.py",
-                next="pages/3_Pre_PCR_Low_Volume.py",
+                prev="sections/1_Pre_PCR_High_Volume.py",
+                next="sections/3_Pre_PCR_Low_Volume.py",
                 status_prev='Pre PCR (High Vol) status',
                 status_next='Pre PCR (Low Vol) status')
 
@@ -62,5 +62,5 @@ with st.container(): # third section
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/1_Pre_PCR_High_Volume.py", label="Prev", icon="⏮️", disabled = st.session_state['Pre PCR (High Vol) status'])
-buttons2[2].page_link("pages/3_Pre_PCR_Low_Volume.py", label="Next", icon="⏭️", disabled = st.session_state['Pre PCR (Low Vol) status'])
+buttons2[1].page_link("sections/1_Pre_PCR_High_Volume.py", label="Prev", icon="⏮️", disabled = st.session_state['Pre PCR (High Vol) status'])
+buttons2[2].page_link("sections/3_Pre_PCR_Low_Volume.py", label="Next", icon="⏭️", disabled = st.session_state['Pre PCR (Low Vol) status'])

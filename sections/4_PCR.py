@@ -15,8 +15,8 @@ tz = timezone('EST')
 st.logo('MyLogo.png')
 data = st.session_state['PCR']
 generate_header(title='PCR',
-                prev="pages/3_Pre_PCR_Low_Volume.py",
-                next="pages/5_Gel.py",
+                prev="sections/3_Pre_PCR_Low_Volume.py",
+                next="sections/5_Gel.py",
                 status_prev='Pre PCR (Low Vol) status',
                 status_next='Gel status')
 
@@ -60,5 +60,5 @@ with st.container(border=True): # Comment
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/3_Pre_PCR_Low_Volume.py", label='Prev', icon='⏮️',disabled = st.session_state['Pre PCR (Low Vol) status'])
-buttons2[2].page_link("pages/5_Gel.py", label='Next', icon="⏭️",disabled = st.session_state['Gel status'])
+buttons2[1].page_link("sections/3_Pre_PCR_Low_Volume.py", label='Prev', icon='⏮️',disabled = st.session_state['Pre PCR (Low Vol) status'])
+buttons2[2].page_link("sections/5_Gel.py", label='Next', icon="⏭️",disabled = st.session_state['Gel status'])

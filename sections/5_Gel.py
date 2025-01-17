@@ -15,8 +15,8 @@ tz = timezone('EST')
 st.logo('MyLogo.png')
 gel_summary,gel_specific,blot_summary,blot_specific = st.session_state['Gel']
 generate_header(title='Gel',
-                prev="pages/4_PCR.py",
-                next="pages/6_Illumina.py",
+                prev="sections/4_PCR.py",
+                next="sections/6_Illumina.py",
                 status_prev='PCR status',
                 status_next='Illumina status')
 
@@ -63,5 +63,5 @@ with st.container(border=True): # Comment
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/4_PCR.py", label='Prev', icon="⏮️",disabled = st.session_state['PCR status'])
-buttons2[2].page_link("pages/6_Illumina.py", label='Next', icon='⏭️', disabled = st.session_state['Illumina status'])
+buttons2[1].page_link("sections/4_PCR.py", label='Prev', icon="⏮️",disabled = st.session_state['PCR status'])
+buttons2[2].page_link("sections/6_Illumina.py", label='Next', icon='⏭️', disabled = st.session_state['Illumina status'])

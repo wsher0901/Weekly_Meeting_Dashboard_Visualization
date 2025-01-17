@@ -15,8 +15,8 @@ tz = timezone('EST')
 st.logo('MyLogo.png')
 data = st.session_state['Illumina']
 generate_header(title='Illumina',
-                prev="pages/5_Gel.py",
-                next="pages/7_Pacbio.py",
+                prev="sections/5_Gel.py",
+                next="sections/7_Pacbio.py",
                 status_prev='Gel status',
                 status_next='Pacbio status')
 
@@ -54,5 +54,5 @@ with st.container(border=True): # Comment
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/5_Gel.py", label='Prev', icon="⏮️",disabled = st.session_state['Gel status'])
-buttons2[2].page_link("pages/7_Pacbio.py",label='Next',icon='⏭️', disabled = st.session_state['Pacbio status'])
+buttons2[1].page_link("sections/5_Gel.py", label='Prev', icon="⏮️",disabled = st.session_state['Gel status'])
+buttons2[2].page_link("sections/7_Pacbio.py",label='Next',icon='⏭️', disabled = st.session_state['Pacbio status'])

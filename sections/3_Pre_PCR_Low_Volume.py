@@ -17,7 +17,7 @@ st.logo('MyLogo.png')
 data = st.session_state['Pre PCR (Low Vol)']
 generate_header(title='Pre-PCR (Low Volume)',
                 prev="pages/2_Pre_PCR_CMV.py",
-                next="pages/4_PCR.py",
+                next="sections/4_PCR.py",
                 status_prev='Pre PCR (CMV) status',
                 status_next='PCR status')
 
@@ -75,5 +75,5 @@ with st.container(border=True): # Comment
 
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
-buttons2[1].page_link("pages/2_Pre_PCR_CMV.py", label="Prev", icon="⏭️", disabled = st.session_state['Pre PCR (CMV) status'])
-buttons2[2].page_link("pages/4_PCR.py", label='Next', icon="⏭️",disabled = st.session_state['PCR status'])
+buttons2[1].page_link("sections/2_Pre_PCR_CMV.py", label="Prev", icon="⏭️", disabled = st.session_state['Pre PCR (CMV) status'])
+buttons2[2].page_link("sections/4_PCR.py", label='Next', icon="⏭️",disabled = st.session_state['PCR status'])
