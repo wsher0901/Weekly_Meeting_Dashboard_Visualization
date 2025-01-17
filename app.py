@@ -2,6 +2,7 @@ import streamlit as st
 
 pages = {
     'Main':[
+        st.Page('Intro.py',title='Introduction'),
         st.Page('Homepage.py',title='Homepage')
     ],
     "Pre PCR": [

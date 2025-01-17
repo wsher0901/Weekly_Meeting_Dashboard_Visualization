@@ -22,11 +22,8 @@ if 'lw' not in st.session_state:
     st.session_state.lw = lw
     st.session_state.tw = tw
 
-col1,col2,col3 = st.columns(3)
+col1,col2,col3 = st.columns([2,3,2])
 col2.image('MyLogo.png')
-col2.markdown(f"<h1 style='text-align: center;font-size: 40px;font-family: Arial;color: #f9423a;padding-bottom: 0;'>{st.session_state.lw.strftime('%m/%d/%y')} ~ {st.session_state.tw.strftime('%m/%d/%y')}</h1>", unsafe_allow_html=True)
-st.write('')
-st.write('')
 i1,i2,i3= st.columns([2,2,2])
 form = i2.form('Customize')
 input_date = form.date_input('Date Range', value=[st.session_state.lw,st.session_state.tw])
