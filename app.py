@@ -20,11 +20,10 @@ pages = {
         st.Page("sections/8_Repeats.py",title='Repeats')
     ],
     'Turn Around Time':[
-        st.Page("sections/10_HLA_TAT.py",title='HLA'),
-        st.Page("sections/11_Non_HLA_TAT.py",title='Non-HLA')
+        st.Page("sections/9_HLA_TAT.py",title='HLA')
     ],
     'New Allele':[
-        st.Page("sections/12_New_Allele.py", title='New Allele')
+        st.Page("sections/10_New_Allele.py", title='New Allele')
     ]
 }
 

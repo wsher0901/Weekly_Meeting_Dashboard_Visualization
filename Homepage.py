@@ -64,9 +64,8 @@ a5.page_link("sections/5_Gel.py", label='Gel', icon="🧫",disabled = st.session
 a5.page_link("sections/6_Illumina.py", label='Illumina', icon='🇮🇱', disabled = st.session_state['Illumina status'])
 a5.page_link("sections/7_Pacbio.py",label='Pacbio',icon='🅿', disabled = st.session_state['Pacbio status'])
 a5.page_link("sections/8_Repeats.py", label="Repeats", icon="♻️", disabled = st.session_state['Repeats status'])
-a5.page_link("sections/10_HLA_TAT.py", label="HLA TAT", icon="📆", disabled = st.session_state['HLA TAT status'])
-a5.page_link("sections/11_Non_HLA_TAT.py", label="Non HLA TAT", icon="📆", disabled = st.session_state['Non-HLA TAT status'])
-a5.page_link("sections/12_New_Allele.py", label="New Allele", icon="🧬", disabled = st.session_state['New Allele status'])
+a5.page_link("sections/9_HLA_TAT.py", label="HLA TAT", icon="📆", disabled = st.session_state['HLA TAT status'])
+a5.page_link("sections/10_New_Allele.py", label="New Allele", icon="🧬", disabled = st.session_state['New Allele status'])
 
 if os.path.exists('Archive/'):
     entries = sorted([i for i in os.listdir('Archive/') if i[0:2] == tw.strftime('%m')],key=lambda x: int(x[3:5]),reverse=True)

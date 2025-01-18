@@ -132,6 +132,40 @@ def reagents_load(cursor,lw,tw):
     return
     #return reagents_transform(output)
     
+def hla_tat_load(cursor,lw,tw):
+    # output = []
+    # before = tw-timedelta(days=90)
+    # non_clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','N',1" 
+    # clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','C',1"
+    # extension_query = "select * from AutoExtensionRequestClientProjects"
+    # for i in [non_clinical_query,clinical_query,extension_query]:
+    #     cursor.execute(i)
+    #     while True:
+    #         output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+    #         if not cursor.nextset():
+    #             break
+
+    # return hla_tat_transform(output,lw,tw)
+    return generate_hla()
+
+def non_hla_tat_load(cursor,lw,tw):
+    output = []
+    before = tw-relativedelta(months=6)
+    gene_list = 'ABO-RH,CCR,CMV,DRA,E,FCGR3A,G,HPA,KIR,MICA,MICB'
+    query = f"EXEC GetNonHLAReportStatisticsWorkflow_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','{gene_list}',1"
+    extension_query = "select * from AutoExtensionRequestClientProjects"
+    for i in [query,extension_query]:
+        cursor.execute(i)
+        while True:
+            output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
+            if not cursor.nextset():
+                break
+    
+    return non_hla_tat_transform(output,lw,tw)
+
+def new_allele_demo_load(cursor,lw,tw,today):
+    return
+
 def new_allele_load(cursor,lw,tw,today):
     def get_gene_index():
         cursor.execute("select GenomeSegmentName, d.ClassID, c.Name, a.NucleotideStart, NucleotideEnd, a.AminoAcidStart, a.AminoAcidEnd, a.CodonStart from ProbemapallelesHistos.dbo.genometrics a,ProbemapallelesHistos.dbo.genomesegments b,ProbemapallelesHistos.dbo.genes c, Histosdb.dbo.genes d where a.GenomeSegmentID = b.GenomeSegmentID and a.GeneID = C.GeneID and c.MethodTypeID = 2 and c.name = d.genename and d.GeneGroupID = 1 and d.Status = 'A' and NucleotideStart <> 0 and AnalysisGeneOrder is not null order by c.Name, NucleotideStart")
@@ -298,37 +332,6 @@ def new_allele_load(cursor,lw,tw,today):
 
     return gene_location,gene_codon,data,border,non_border,table
 
-def hla_tat_load(cursor,lw,tw):
-    # output = []
-    # before = tw-timedelta(days=90)
-    # non_clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','N',1" 
-    # clinical_query = f"EXEC GetClientProjectsWithStatistics_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','C',1"
-    # extension_query = "select * from AutoExtensionRequestClientProjects"
-    # for i in [non_clinical_query,clinical_query,extension_query]:
-    #     cursor.execute(i)
-    #     while True:
-    #         output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-    #         if not cursor.nextset():
-    #             break
-
-    # return hla_tat_transform(output,lw,tw)
-    return generate_hla()
-
-def non_hla_tat_load(cursor,lw,tw):
-    output = []
-    before = tw-relativedelta(months=6)
-    gene_list = 'ABO-RH,CCR,CMV,DRA,E,FCGR3A,G,HPA,KIR,MICA,MICB'
-    query = f"EXEC GetNonHLAReportStatisticsWorkflow_Visualization '{before.strftime('%Y/%m/%d')}','{tw.strftime('%Y/%m/%d')}','{gene_list}',1"
-    extension_query = "select * from AutoExtensionRequestClientProjects"
-    for i in [query,extension_query]:
-        cursor.execute(i)
-        while True:
-            output.append(pd.DataFrame([list(i) for i in cursor.fetchall()],columns=[column[0] for column in cursor.description]))
-            if not cursor.nextset():
-                break
-    
-    return non_hla_tat_transform(output,lw,tw)
-
 def get_date():
     today = date.today()
     this_week = last_week = ''
@@ -345,7 +348,7 @@ def get_date():
 
     return last_week, this_week
 
-page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','HLA TAT','Non-HLA TAT','New Allele']
+page_list = ['Pre PCR (High Vol)','Pre PCR (CMV)','Pre PCR (Low Vol)','PCR','Gel','Illumina','Pacbio','Repeats','HLA TAT','New Allele']
 page_dict = {'Pre PCR (High Vol)':high_volume_load,
              'Pre PCR (CMV)':cmv_load,
              'Pre PCR (Low Vol)':low_volume_load,
@@ -355,8 +358,7 @@ page_dict = {'Pre PCR (High Vol)':high_volume_load,
              'Pacbio':pacbio_load,
              'Repeats':repeats_load,
              'HLA TAT':hla_tat_load,
-             'Non-HLA TAT':non_hla_tat_load,
-             'New Allele':new_allele_load}
+             'New Allele':new_allele_demo_load}
 
 def load_data(lw,tw,choice):
     cursor = None
