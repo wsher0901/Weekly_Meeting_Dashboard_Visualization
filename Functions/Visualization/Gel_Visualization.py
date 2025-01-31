@@ -23,7 +23,7 @@ def generate_comprehensive_bar_chart(df):
                       height=650,
                       legend=dict(orientation='h',yanchor='top',y=-0.25,xanchor='left',x=0.43,font=dict(size=15)),
                       font=dict(size=44,color='black'),
-                      xaxis=dict(tickfont=dict(size=32,color='black')),
+                      xaxis=dict(tickfont=dict(size=28,color='black')),
                       yaxis=dict(tickfont=dict(size=18,color='black'),
                                  range=[0, max_val * 1.15]))
     
@@ -69,7 +69,7 @@ def generate_bar_chart_for_blot(df):
                       font=dict(size=70,color='black'),
                       showlegend=False,
                       yaxis=dict(tickfont=dict(size=20,color='black'),range=[0, df['Blot Count'].max() * 1.2]),
-                      xaxis=dict(tickfont=dict(size=20,color='black')),
+                      xaxis=dict(tickfont=dict(size=18,color='black')),
                       hovermode=False,
                       bargap=0.7,
                       xaxis_title=None,

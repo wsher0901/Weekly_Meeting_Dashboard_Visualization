@@ -20,9 +20,9 @@ df_c = df[df.Type == 'Clinical']
 
 generate_header(title='HLA TAT Status',
                 prev="sections/8_Repeats.py",
-                next="sections/11_Non_HLA_TAT.py",
+                next="sections/10_New_Allele.py",
                 status_prev='Repeats status',
-                status_next='Non-HLA TAT status')
+                status_next='New Allele status')
 
 # Non-Clinical
 st.write(generate_markdown('Non-Clinical', font_size=60,font_color='black'), unsafe_allow_html=True)
@@ -57,4 +57,4 @@ st.divider()
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
 buttons2[1].page_link("sections/8_Repeats.py", label='Prev', icon='⏮️', disabled = st.session_state['Repeats status'])
-buttons2[2].page_link("sections/11_Non_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['Non-HLA TAT status'])
+buttons2[2].page_link("sections/10_New_Allele.py", label="Next", icon="⏭️", disabled = st.session_state['New Allele status'])

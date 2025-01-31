@@ -19,8 +19,8 @@ def generate_pie_chart_for_client_type(df):
                                  textfont=dict(color='black'))])
     
     fig.update_layout(hovermode=False,
-                      width=700,
-                      height=700,
+                      width=650,
+                      height=650,
                       showlegend=False,
                       legend=dict(yanchor='top',
                                   xanchor='right',
@@ -30,7 +30,7 @@ def generate_pie_chart_for_client_type(df):
                                   y=-0.1,
                                   title=''))
     
-    fig.update_traces(textfont_size=32,
+    fig.update_traces(textfont_size=28,
                       marker=dict(colors=px.colors.qualitative.G10, 
                                   line=dict(color='#000000', width=4)))
     return fig

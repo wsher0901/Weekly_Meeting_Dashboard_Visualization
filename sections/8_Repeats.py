@@ -19,7 +19,7 @@ ngs = data[~data.Experiment.str[:3].isin(['PAC'])]
 pac = data[data.Experiment.str[:3].isin(['PAC'])]
 generate_header(title='Repeats',
                 prev="sections/7_Pacbio.py",
-                next="sections/10_HLA_TAT.py",
+                next="sections/9_HLA_TAT.py",
                 status_prev='Pacbio status',
                 status_next='HLA TAT status')
 
@@ -56,4 +56,4 @@ with st.container(border=True): # Comment
 st.write('')
 buttons2 = st.columns([5,0.5,0.5,5])
 buttons2[1].page_link("sections/7_Pacbio.py", label='Prev', icon='⏮️', disabled = st.session_state['Pacbio status'])
-buttons2[2].page_link("sections/10_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['HLA TAT status'])
+buttons2[2].page_link("sections/9_HLA_TAT.py", label="Next", icon="⏭️", disabled = st.session_state['HLA TAT status'])

@@ -16,7 +16,7 @@ tz = timezone('EST')
 st.logo('MyLogo.png')
 data = st.session_state['Pre PCR (Low Vol)']
 generate_header(title='Pre-PCR (Low Volume)',
-                prev="pages/2_Pre_PCR_CMV.py",
+                prev="sections/2_Pre_PCR_CMV.py",
                 next="sections/4_PCR.py",
                 status_prev='Pre PCR (CMV) status',
                 status_next='PCR status')
